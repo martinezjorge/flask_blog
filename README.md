@@ -34,7 +34,6 @@ If you're on Ubuntu 18.04 you have to export some variables to the environment.
 
 Just copy and paste the following lines to your .bashrc file. 
 
-I set up an email with no personal information that is just for sending automated responses.
 
 > export EMAIL_USER="emailforflaskemails@gmail.com"
 >
@@ -44,3 +43,21 @@ I set up an email with no personal information that is just for sending automate
 >
 > export SQLALCHEMY_DATABASE_URI='sqlite:///site.db'
 
+I set up an email with no personal information that is just for sending automated responses.
+
+The secret key is for hashing, and the database uri specifies the type of database that it
+is. In this case its using a sqlite database.
+
+If you want to see how the schema was set up you can see it at the following link:
+
+    https://github.com/martinezjorge/flask_blog/blob/master/flaskblog/models.py
+    
+Inside of the User class, it meets all the requirements that you specified except that I made
+the length of the password longer because the encrypted password is 60 characters long rather
+than the 25 you specified.
+
+This was created a blog web app so if you get it set up you can use it and create and delete posts.
+I'm not sure what you wanted the rest of the project to be but with this as a starting base, I'm
+sure I can pivot in whatever direction you were planning for the class. If it would have been a blog
+then the next thing I would do is allow administrator accounts to be able to delete and edit
+any posts as right now users are the only ones who can delete their posts.
