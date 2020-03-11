@@ -1,4 +1,4 @@
-Overview
+# Overview
 
 99% of this code came from Corey Shafer's Flask Course on YouTube.
 
@@ -8,7 +8,7 @@ You can find it here in the following link:
 
 ******************************************************************************************************
 
-Installation
+#### Installation
 
 This is going a blog with a login page and other functionality that was created using Flask as the 
 back end and with HTML and CSS in the Front End using Flask's Ninja Template Engine.
@@ -63,7 +63,7 @@ And it will give you url from localhost where you can see the webapp.
 
 ******************************************************************************************************
 
-Notes
+##### Notes
 
 If you want to see how the schema was set up you can see it at the following link:
 
