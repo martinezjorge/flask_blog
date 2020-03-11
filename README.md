@@ -48,6 +48,18 @@ I set up an email with no personal information that is just for sending automate
 The secret key is for hashing, and the database uri specifies the type of database that it
 is. In this case its using a sqlite database.
 
+Now with the environment variables set up. In a terminal run
+
+> cd flask_blog
+
+Now to run the web app type: 
+
+> python run.py
+
+And it will give you url from localhost where you can see the webapp.
+
+*********************************************************************************************
+
 If you want to see how the schema was set up you can see it at the following link:
 
     https://github.com/martinezjorge/flask_blog/blob/master/flaskblog/models.py
@@ -56,7 +68,7 @@ Inside of the User class, it meets all the requirements that you specified excep
 the length of the password longer because the encrypted password is 60 characters long rather
 than the 25 you specified.
 
-This was created a blog web app so if you get it set up you can use it and create and delete posts.
+This is actually  a blog web app so if you get it set up you can use it and create and delete posts.
 I'm not sure what you wanted the rest of the project to be but with this as a starting base, I'm
 sure I can pivot in whatever direction you were planning for the class. If it would have been a blog
 then the next thing I would do is allow administrator accounts to be able to delete and edit
