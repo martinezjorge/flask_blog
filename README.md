@@ -1,18 +1,21 @@
+Overview
+
 99% of this code came from Corey Shafer's Flask Course on YouTube.
 
 You can find it here in the following link:
     
     https://www.youtube.com/playlist?list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH
 
+******************************************************************************************************
 
-This is going to be a basic login page using Flask as the back end and some HTML and CSS 
-in the Front End using Flask's Ninja Template Engine.
+Installation
+
+This is going a blog with a login page and other functionality that was created using Flask as the 
+back end and with HTML and CSS in the Front End using Flask's Ninja Template Engine.
 
 I developed this on Ubuntu 18.04 using Python 3.6. If you happen to have Ubuntu 18.04 that would
 be great because it already comes with Python 3.6; otherwise, you'll have to install it in order to
-run this project.
-
-There is a requirements.txt that you can use to set up a virtual environment by running
+run this project. I recommend a virtual environment.
 
 > python -m venv create virtual
 
@@ -20,7 +23,7 @@ then to activate it run
 
 > source virtual/bin/activate
 
-then you can install the dependencies
+There is a requirements.txt that you can use to set up a virtual environment by running
 
 > pip install requirements.txt
 
@@ -58,7 +61,9 @@ Now to run the web app type:
 
 And it will give you url from localhost where you can see the webapp.
 
-*********************************************************************************************
+******************************************************************************************************
+
+Notes
 
 If you want to see how the schema was set up you can see it at the following link:
 
