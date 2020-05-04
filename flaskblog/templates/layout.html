@@ -18,7 +18,7 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
                 <div class="container">
-                    <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">Flask Blog</a>
+                    <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">EveryBlog</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -30,7 +30,7 @@
                         <!-- Navbar Right Side -->
                         <div class="navbar-nav">
                             {% if current_user.is_authenticated %}
-                                <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
+                                <a class="nav-item nav-link" href="{{ url_for('blogs.new_blog') }}">New Blog</a>
                                 <a class="nav-item nav-link" href="{{ url_for('users.account')}}">Account</a>
                                 <a class="nav-item nav-link" href="{{ url_for('users.logout')}}">Logout</a>
                             {% else %}
@@ -59,15 +59,45 @@
                 </div>
                 <div class="col-md-4">
                     <div class="content-section">
-                        <h3>Our Sidebar</h3>
-                        <p class="text-muted"> You can put any information here you'd like.
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                                <li class="list-group-item list-group-item-light">Anouncements</li>
-                                <li class="list-group-item list-group-item-light">Calendars</li>
-                                <li class="list-group-item list-group-item-light">etc</li>
-                            </ul>
-                        </p>
+                        <h3>Database Controls</h3>
+                        {% if current_user.is_authenticated %}
+                            <p class="text-muted"> Click on these links to run queries and modify the database.
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="{{ url_for('main.initialize_db')}}">Initialize Database</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">Users Who Posted At Least Two Blogs with Different Tags</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">List All Blogs of a User With All Positive Comments</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">Users Who Posted the Most Blogs on 2/10/2020</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">Users Followed By Two Accounts Specified By User</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">All Users Who Never Posted a Blog</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">All Users Who Never Posted a Comment</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">Users With Only Negative Comments</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">Users Whose Blogs Have No Negative Comments</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <a class="nav-item nav-link" href="#">A User Pair That Always Gave Positive Comments</a>
+                                    </li>
+                                </ul>
+                            </p>
+                        {% else %}
+                            <p>Log in to use database controls.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

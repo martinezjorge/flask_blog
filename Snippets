@@ -1,0 +1,40 @@
+
+
+
+Register.html
+<div class="form-group">
+    {{ form.user_type.label(class="form-control-label") }}
+    {% if form.user_type.errors %}
+        {{ form.user_type(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.user_type.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.user_type(class="form-control form-control-lg") }}
+    {% endif %}
+</div>
+
+
+layout.html
+<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+
+
+account.html
+<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + blog.writtenBy.image_file) }}">
+
+
+<div class="form-group">
+    {{ form.user_type.label(class="form-control-label") }}
+    {% if form.user_type.errors %}
+        {{ form.user_type(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.user_type.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.user_type(class="form-control form-control-lg") }}
+    {% endif %}
+</div>

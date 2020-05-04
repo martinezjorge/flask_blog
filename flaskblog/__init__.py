@@ -24,11 +24,11 @@ def create_app(config_class=Config):
     mail.init_app(app)
 
     from flaskblog.users.routes import users
-    from flaskblog.posts.routes import posts
+    from flaskblog.blogs.routes import blogs
     from flaskblog.main.routes import main
     from flaskblog.errors.handlers import errors
     app.register_blueprint(users)
-    app.register_blueprint(posts)
+    app.register_blueprint(blogs)
     app.register_blueprint(main)
     app.register_blueprint(errors)
 

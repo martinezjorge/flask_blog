@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, DateTimeField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
@@ -8,11 +8,13 @@ from flaskblog.models import User
 
 
 class RegistrationForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=30)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=30)])
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    user_type = SelectField('User Type', choices=[('staff', 'Staff'), ('admin', 'Admin')], validators=[DataRequired()])
+    # user_type = SelectField('User Type', choices=[('staff', 'Staff'), ('admin', 'Admin')], validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
     @staticmethod
