@@ -9,4 +9,4 @@ class BlogForm(FlaskForm):
     tags = StringField('Tags', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     date = DateField('Date', default=datetime.utcnow)
-    submit = SubmitField('Blog')
+    submit = SubmitField('Post Blog')

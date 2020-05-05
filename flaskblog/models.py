@@ -21,9 +21,9 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 
     # User can create many blogs
-    blogs = db.relationship('Blog', backref='writtenBy', lazy=True)
+    blogs = db.relationship('Blog', backref='bloggedBy', lazy=True)
     # User can create many comments
-    comments = db.relationship('Comment', backref='writtenBy', lazy=True)
+    comments = db.relationship('Comment', backref='commentedBy', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -45,32 +45,31 @@ class User(db.Model, UserMixin):
 class Blog(db.Model):
     blog_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
     date_blogged = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     # Blog can have many comments
-    comment_id = db.relationship('Comment', backref='blog', lazy=True)
+    comment = db.relationship('Comment', backref='blog', lazy=True)
     # Blog can have many tags
     tag = db.relationship('Tag', backref='blog', lazy=True)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_blogged}')"
+        return f"Post('{self.subject}', '{self.date_blogged}')"
 
 
 class Comment(db.Model):
     # Columns
     comment_id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
-    sentiment = db.Column(db.Integer, nullable=False, default=0)
+    comment = db.Column(db.Text, nullable=False)
+    sentiment = db.Column(db.Integer, nullable=False)
     date_commented = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    # One to Many relationship from user to comment
+    # Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     blog_id = db.Column(db.Integer, db.ForeignKey('blog.blog_id'), nullable=False)
 
     def __repr__(self):
-        return f"Comment('{self.user_id}','{self.blog_id}','{self.comment_id}','{self.sentiment}')"
+        return f"Comment('{self.user_id}','{self.blog_id}','{self.comment_id}','{self.sentiment}',{self.comment})"
 
 
 class Tag(db.Model):

@@ -10,7 +10,6 @@ main = Blueprint('main', __name__)
 def home():
     page = request.args.get('page', 1, type=int)
     blogs = Blog.query.order_by(Blog.date_blogged.desc()).paginate(page=page, per_page=5)
-    print(blogs)
     return render_template('home.html', blogs=blogs)
 
 

@@ -11,6 +11,7 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
+login_manager.login_message = 'Log in to proceed!'
 mail = Mail()
 
 
@@ -27,8 +28,10 @@ def create_app(config_class=Config):
     from flaskblog.blogs.routes import blogs
     from flaskblog.main.routes import main
     from flaskblog.errors.handlers import errors
+    from flaskblog.comments.routes import comments
     app.register_blueprint(users)
     app.register_blueprint(blogs)
+    app.register_blueprint(comments)
     app.register_blueprint(main)
     app.register_blueprint(errors)
 

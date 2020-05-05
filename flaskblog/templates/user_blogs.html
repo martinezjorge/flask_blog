@@ -1,29 +1,20 @@
 {% extends "layout.html"  %}
 {% block content %}
-<h1 class="mb-3">{{ blogs.total }} Posts by {{ user.username }}</h1>
-    {% for blog in blogs.items %}
-        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + blog.writtenBy.image_file) }}">
+    <h1 class="mb-3">{{ blogs.total }} Blog Posts by {{ user.username }}</h1>
+    <div class="content-section center pb-3">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+        <a class="mr-2" href="{{ url_for('users.user_blogs', username=user.username) }}">{{user.username }}</a>
+    </div>
+    {% for blog, tags in blogs_and_tags %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('users.user_blogs', username=blog.writtenBy.username) }}">{{blog.writtenBy.username }}</a>
                     <small class="text-muted">{{ blog.date_blogged.strftime('%Y-%m-%d') }}</small>
                 </div>
                 <h2><a class="article-title" href="{{ url_for('blogs.blog', blog_id=blog.blog_id) }}">{{ blog.subject }}</a></h2>
-                <p class="article-content">{{ tags }}}</p>
+                <p class="article-content">Tags: {{ tags }}</p>
                 <p class="article-content">{{ blog.description }}</p>
             </div>
         </article>
-    {% endfor %}
-    {% for page_num in blogs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-            {% if blogs.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{ url_for('users.user_blogs', username=user.username, page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_blogs', username=user.username, page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
     {% endfor %}
 {% endblock content%}

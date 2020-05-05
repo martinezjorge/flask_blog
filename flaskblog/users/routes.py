@@ -4,6 +4,7 @@ from flaskblog import db, bcrypt
 from flaskblog.models import User, Blog, Comment, Tag
 from flaskblog.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flaskblog.users.utils import save_picture, send_reset_email
+from flaskblog.utils import get_tags
 
 users = Blueprint('users', __name__)
 
@@ -60,26 +61,24 @@ def account():
             current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
-        current_user.user_type = form.user_type.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        # form.user_type.data = current_user.user_type
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 
 @users.route("/user/<string:username>")
 def user_blogs(username):
-    page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    blogs = Blog.query.filter_by(writtenBy=user)\
-        .order_by(Blog.date_blogged.desc())\
-        .paginate(page=page, per_page=5)
-    return render_template('user_blogs.html', blogs=blogs, user=user)
+    blogs = user.blogs
+    all_tags = [get_tags(blog.tag) for blog in blogs]
+    blogs_and_tags = zip(blogs, all_tags)
+    print(blogs)
+    return render_template('user_blogs.html', blogs=user.blogs, user=user, blogs_and_tags=blogs_and_tags)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])

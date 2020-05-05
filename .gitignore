@@ -5,3 +5,5 @@ __pycache__
 site.db
 
 .idea
+
+flaskblog/static/profile_pics

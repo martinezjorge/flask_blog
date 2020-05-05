@@ -21,7 +21,7 @@
             <div class="form-group">
                 {{ form.tags.label(class="form-control-label") }}
                 {% if form.tags.errors %}
-                {{ form.subject(class="form-control form-control-lg is-invalid") }}
+                {{ form.tags(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.tags.errors %}
                     <span>{{ error }}</span>

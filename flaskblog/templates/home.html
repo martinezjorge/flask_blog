@@ -3,9 +3,9 @@
     {% for blog in blogs.items %}
         <article class="media content-section">
             <div class="media-body">
-                <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + blog.writtenBy.image_file) }}">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + blog.bloggedBy.image_file) }}">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('users.user_blogs', username=blog.writtenBy.username) }}">{{ blog.writtenBy.username }}</a>
+                    <a class="mr-2" href="{{ url_for('users.user_blogs', username=blog.bloggedBy.username) }}">{{ blog.bloggedBy.username }}</a>
                     <small class="text-muted">{{ blog.date_blogged.strftime('%Y-%m-%d') }}</small>
                 </div>
                 <h2><a class="article-title" href="{{ url_for('blogs.blog', blog_id=blog.blog_id) }}">{{ blog.subject }}</a></h2>

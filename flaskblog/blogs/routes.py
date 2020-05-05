@@ -14,26 +14,30 @@ def new_blog():
     form = BlogForm()
     if form.validate_on_submit():
         tags = [Tag(tag=tag) for tag in form.tags.data.split()]
-        blog = Blog(subject=form.subject.data, description=form.description.data, writtenBy=current_user, tag=tags)
-        db.session.add(blog)
+        new_blog = Blog(subject=form.subject.data, description=form.description.data, bloggedBy=current_user, tag=tags)
+        db.session.add(new_blog)
         db.session.commit()
         flash('Your blog has been created!', 'success')
         return redirect(url_for('main.home'))
     return render_template('create_blog.html', subject='New Blog', form=form, legend='New Blog')
 
 
-@blogs.route("/blog/<int:blog_id>/")
+@blogs.route("/blog/<int:blog_id>", methods=['GET', 'POST'])
 def blog(blog_id):
-    blog = Blog.query.get_or_404(blog_id)
-    tags = get_tags(blog.tag)
-    return render_template('blog.html', subject=blog.subject, blog=blog, tags=tags)
+    current_blog = Blog.query.get_or_404(blog_id)
+    tags = get_tags(current_blog.tag)
+    return render_template('blog.html',
+                           subject=current_blog.subject,
+                           blog=current_blog,
+                           tags=tags,
+                           comments=current_blog.comment)
 
 
 @blogs.route("/blog/<int:blog_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_blog(blog_id):
     blog = Blog.query.get_or_404(blog_id)
-    if blog.writtenBy != current_user:
+    if blog.bloggedBy != current_user:
         abort(403)
     form = BlogForm()
     if form.validate_on_submit():
@@ -55,7 +59,7 @@ def update_blog(blog_id):
 @login_required
 def delete_blog(blog_id):
     blog = Blog.query.get_or_404(blog_id)
-    if blog.writtenBy != current_user:
+    if blog.bloggedBy != current_user:
         abort(403)
     db.session.delete(blog)
     db.session.commit()
