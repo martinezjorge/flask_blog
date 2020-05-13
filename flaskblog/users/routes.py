@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from flaskblog import db, bcrypt
-from flaskblog.models import User, Blog, Comment, Tag
+from flaskblog.models import User, Blog, Comment, Tag, follows
 from flaskblog.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flaskblog.users.utils import save_picture, send_reset_email
 from flaskblog.utils import get_tags
@@ -77,7 +77,7 @@ def user_blogs(username):
     blogs = user.blogs
     all_tags = [get_tags(blog.tag) for blog in blogs]
     blogs_and_tags = zip(blogs, all_tags)
-    print(blogs)
+    # print(blogs)
     return render_template('user_blogs.html', blogs=user.blogs, user=user, blogs_and_tags=blogs_and_tags)
 
 
@@ -110,3 +110,15 @@ def reset_token(token):
         flash(f"Your password has been updated! You are now able to log in!", "success")
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+@users.route("/", methods=['POST', 'GET'])
+@login_required
+def follow():
+    page = request.args.get('page', 1, type=int)
+    follow_id = request.args.get('follow_id', 1, type=int)
+    statement = follows.insert().values(user_id=current_user.id, follower_id=follow_id)
+    db.session.execute(statement)
+    db.session.commit()
+    blogs = Blog.query.order_by(Blog.date_blogged.desc()).paginate(page=page, per_page=5)
+    return render_template('home.html', blogs=blogs)

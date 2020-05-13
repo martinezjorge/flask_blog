@@ -1,31 +1,20 @@
 {% extends "layout.html"  %}
 {% block content %}
-    {% for blog in blogs.items %}
+    {% for blog in blogs %}
         <article class="media content-section">
             <div class="media-body">
                 <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + blog.bloggedBy.image_file) }}">
                 <div class="article-metadata pb-2 pt-2">
 {#                    {% if current_user.following.blog.bloggedBy %}#}
-                    <a class="btn-secondary btn-sm mt-2 mb-1" href="{{ url_for('users.follow', follow_id=blog.bloggedBy.id)}}">Follow</a>
+                    <a class=" btn-secondary btn-sm mt-2 mb-1" href="{{ url_for('users.follow', blog_id=blog.blog_id)}}">Follow</a>
 {#                    <a class=" btn-secondary btn-sm mt-2 mb-1" href="{{ url_for('users.unfollow', blog_id=blog.blog_id)}}">Follow</a>#}
                     <a class="mr-2" href="{{ url_for('users.user_blogs', username=blog.bloggedBy.username) }}">{{ blog.bloggedBy.username }}</a>
                     <small class="text-muted">{{ blog.date_blogged.strftime('%Y-%m-%d') }}</small>
                 </div>
                 <h2><a class="article-title" href="{{ url_for('blogs.blog', blog_id=blog.blog_id) }}">{{ blog.subject }}</a></h2>
-                <p class="article-content">{{ tags }}</p>
+{#                <p class="article-content">{{ tags }}</p>#}
                 <p class="article-content">{{ blog.description }}</p>
             </div>
         </article>
-    {% endfor %}
-    {% for page_num in blogs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-            {% if blogs.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
     {% endfor %}
 {% endblock content%}

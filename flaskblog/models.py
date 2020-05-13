@@ -10,6 +10,15 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# Many to Many relationship
+follows = db.Table('follows',
+                   db.Model.metadata,
+                   db.Column('id', db.Integer, primary_key=True),
+                   db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                   db.Column('follower_id', db.Integer, db.ForeignKey('user.id'))
+                   )
+
+
 class User(db.Model, UserMixin):
     # Columns
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +33,12 @@ class User(db.Model, UserMixin):
     blogs = db.relationship('Blog', backref='bloggedBy', lazy=True)
     # User can create many comments
     comments = db.relationship('Comment', backref='commentedBy', lazy=True)
+    # User can follow users, even themselves
+    following = db.relationship("User",
+                                secondary=follows,
+                                primaryjoin=id == follows.c.user_id,
+                                secondaryjoin=id == follows.c.follower_id,
+                                backref='follows')
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -80,10 +95,3 @@ class Tag(db.Model):
 
     def __repr__(self):
         return f"Tag('{self.tag}','{self.blog_id}')"
-
-
-# Many to Many relationship
-follows = db.Table('follows',
-                   db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-                   db.Column('follower_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
-                   )

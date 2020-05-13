@@ -9,9 +9,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='main.css') }}>
         {% if title %}
-            <title>Flask Blog - {{ title }}</title>
+            <title>EveryBlog - {{ title }}</title>
         {% else %}
-            <title> Flask Blog</title>
+            <title> EveryBlog</title>
         {% endif %}
     </head>
     <body>
@@ -26,6 +26,10 @@
                         <div class="navbar-nav mr-auto">
                             <a class="nav-item nav-link" href="{{ url_for('main.home')}}">Home</a>
                             <a class="nav-item nav-link" href="{{ url_for('main.about')}}">About</a>
+                            <form action="{{ url_for('search.search_by_tag') }}" method="GET">
+                                <input class="ml-8 mr-8" type="text" name="tag">
+                                <button class="ml-8 btn btn-light" type="submit">Search</button>
+                            </form>
                         </div>
                         <!-- Navbar Right Side -->
                         <div class="navbar-nav">
@@ -57,7 +61,7 @@
                     {% block content %}
                     {% endblock content%}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="content-section">
                         <h3>Database Controls</h3>
                         {% if current_user.is_authenticated %}
@@ -67,10 +71,10 @@
                                         <a class="nav-item nav-link" href="{{ url_for('main.initialize_db')}}">Initialize Database</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">Users Who Posted At Least Two Blogs with Different Tags</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.users_who_posted_at_least_two_blogs_with_different_tags')}}">Users Who Posted At Least Two Blogs with Different Tags</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">List All Blogs of a User With All Positive Comments</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.blogs_of_a_user_with_all_positive_comments')}}">List All Blogs of a User With All Positive Comments</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
                                         <a class="nav-item nav-link" href="#">Users Who Posted the Most Blogs on 2/10/2020</a>
@@ -79,16 +83,16 @@
                                         <a class="nav-item nav-link" href="#">Users Followed By Two Accounts Specified By User</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">All Users Who Never Posted a Blog</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.users_who_never_posted_a_blog')}}">All Users Who Never Posted a Blog</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">All Users Who Never Posted a Comment</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.users_who_never_posted_a_comment')}}">All Users Who Never Posted a Comment</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">Users With Only Negative Comments</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.users_with_only_negative_comments')}}">Users With Only Negative Comments</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
-                                        <a class="nav-item nav-link" href="#">Users Whose Blogs Have No Negative Comments</a>
+                                        <a class="nav-item nav-link" href="{{ url_for('main.users_whose_blogs_have_no_negative_comments')}}">Users Whose Blogs Have No Negative Comments</a>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
                                         <a class="nav-item nav-link" href="#">A User Pair That Always Gave Positive Comments</a>
