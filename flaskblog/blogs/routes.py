@@ -4,6 +4,7 @@ from flaskblog import db
 from flaskblog.models import Blog, Tag
 from flaskblog.blogs.forms import BlogForm
 from flaskblog.utils import get_tags
+from datetime import datetime
 
 blogs = Blueprint('blogs', __name__)
 
@@ -13,11 +14,23 @@ blogs = Blueprint('blogs', __name__)
 def new_blog():
     form = BlogForm()
     if form.validate_on_submit():
-        tags = [Tag(tag=tag) for tag in form.tags.data.split()]
-        new_blog = Blog(subject=form.subject.data, description=form.description.data, bloggedBy=current_user, tag=tags)
-        db.session.add(new_blog)
-        db.session.commit()
-        flash('Your blog has been created!', 'success')
+
+        blogs = Blog.query.filter_by(user_id=current_user.id).all()
+
+        blogged_today = []
+        for blog in blogs:
+            if datetime.utcnow().__str__()[:10] in blog.date_blogged.__str__():
+                blogged_today.append(blog)
+
+        if len(blogged_today) > 1:
+            flash('You can only create two blogs per day!', 'danger')
+        else:
+            tags = [Tag(tag=tag) for tag in form.tags.data.split()]
+            new_blog = Blog(subject=form.subject.data, description=form.description.data, bloggedBy=current_user, tag=tags)
+            db.session.add(new_blog)
+            db.session.commit()
+            flash('Your blog has been created!', 'success')
+
         return redirect(url_for('main.home'))
     return render_template('create_blog.html', subject='New Blog', form=form, legend='New Blog')
 
